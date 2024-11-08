@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Saucedemo Test Suite">
+	<listeners>
+		<listener class-name="com.sauce.listeners.SauceDemoListeners" />
+	</listeners>
+	<parameter name="username" value="standard_user" />
+	<parameter name="password" value="secret_sauce" />
+	<parameter name="firstName" value="Shivkumar" />
+	<parameter name="lastName" value="Konnuri" />
+	<parameter name="postalCode" value="400708" />
+	<parameter name="status" value="finish" />
+	<parameter name="browser" value="chrome" />
+	<test name="Saucedemo Test">
+		<classes>
+			<class name="com.sauce.functionalities.SauceTestLoginLogout" />
+			<class name="com.sauce.functionalities.SauceTestAddToCart" />
+			<class name="com.sauce.functionalities.SauceTestCheckout" />
+		</classes>
+	</test> <!--
+	Test -->
+</suite> <!--
+Suite -->
