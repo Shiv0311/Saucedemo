@@ -70,7 +70,7 @@ public class SauceBase {
     @AfterTest(alwaysRun = true)
     public void tearDown() {
         if (getDriver() != null) {
-        	getDriver().quit();
+        	getDriver().close();
             unload();
         }
     }
