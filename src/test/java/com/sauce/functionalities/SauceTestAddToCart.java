@@ -26,12 +26,12 @@ public class SauceTestAddToCart extends SauceBase{
 		getAction().moveToElement(elementBikeLight).click().perform();
 		System.out.println("elementBikeLight is clicked");
         WebElement OneSie = getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-test=\"add-to-cart-sauce-labs-onesie\"]")));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", OneSie);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", OneSie);
 //        getAction().scrollToElement(OneSie).click().perform();
         getAction().moveToElement(OneSie).click().perform();
         System.out.println("Onsie is clicked");
         WebElement cart = getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-test=\"shopping-cart-link\"]")));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cart);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", cart);
         getAction().moveToElement(cart).click().perform();
         System.out.println("cart is clicked");
         List<WebElement> productList = getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class=\"cart_item\"]/div[2]/a/div")));
@@ -50,9 +50,9 @@ public class SauceTestAddToCart extends SauceBase{
     @Story("To check whether user can continue to add more items and navigated to Products Page without completing checkout process")
     public void continueShopping() {
         WebElement continueShopping = getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id=\"continue-shopping\"]")));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", continueShopping);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", continueShopping);
         getAction().moveToElement(continueShopping).click().perform();
-        String actualUrl = driver.getCurrentUrl();
+        String actualUrl = getDriver().getCurrentUrl();
         String expectedUrl = "https://www.saucedemo.com/inventory.html";
         Assert.assertEquals(actualUrl, expectedUrl);
     }

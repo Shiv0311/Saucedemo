@@ -10,76 +10,89 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
 public class SauceBase {
-    
-    protected static WebDriver driver;
+
+    public static WebDriver driver; // Instance driver, not static
+    private static ThreadLocal<WebDriver> dr = new ThreadLocal<>();
     protected Actions action;
     protected FluentWait<WebDriver> wait;
-    protected JavascriptExecutor js;  // Declare JavascriptExecutor here
+    protected JavascriptExecutor js;
     
-    // Flag to ensure setup runs only once per suite
-    private static boolean isInitialized = false;
+    public static WebDriver getDriver() {
+    	
+    	return dr.get();
+    	
+    }
+    
+    public static void setDriver(WebDriver driverref) {
+    	
+    	dr.set(driverref);
+    	
+    }
+    
+    public static void unload() {
+    	dr.remove();
+    }
 
     @Parameters({"browser"})
-    @BeforeTest(alwaysRun = true)
+    @BeforeTest(alwaysRun = true) // Using BeforeMethod instead of BeforeTest for parallelism
     public void setUp(String browser) {
-        if (!isInitialized) {  // Check if setup has already run
-            if (browser.equalsIgnoreCase("chrome")) {
-                driver = new ChromeDriver();
-                driver.manage().window().maximize();
-                driver.get("https://www.saucedemo.com");
-            } else if (browser.equalsIgnoreCase("firefox")) {
-                driver = new FirefoxDriver();
-                driver.manage().window().maximize();
-                driver.get("https://www.saucedemo.com");
-            } else if (browser.equalsIgnoreCase("edge")) {
-                driver = new EdgeDriver();
-                driver.manage().window().maximize();
-                driver.get("https://www.saucedemo.com");
-            } else {
-                throw new IllegalArgumentException("Invalid browser value: " + browser);
-            }
-            
-            // Initialize JavascriptExecutor after the driver is set
-            js = (JavascriptExecutor) driver;
-
-            // Wait for the page to load completely
-            getWait().until(driver -> js.executeScript("return document.readyState").equals("complete"));
-            
-            isInitialized = true;  // Set flag to true after initialization
+        if (browser.equalsIgnoreCase("chrome")) {
+            driver = new ChromeDriver();
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver();
+        } else if (browser.equalsIgnoreCase("edge")) {
+        	driver = new EdgeDriver();
+        } else {
+            throw new IllegalArgumentException("Invalid browser value: " + browser);
         }
+        
+        setDriver(driver);
+        getDriver().manage().window().maximize();
+        getDriver().get("https://www.saucedemo.com");
+
+        js = (JavascriptExecutor) getDriver();
+        action = new Actions(getDriver());
+        
+        // Initialize FluentWait with driver instance
+        
+
+        // Ensure the page is fully loaded
+        getWait().until(driver -> js.executeScript("return document.readyState").equals("complete"));
     }
 
     @AfterTest(alwaysRun = true)
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-            isInitialized = false;  // Reset flag for future test suites
+        if (getDriver() != null) {
+        	getDriver().quit();
+            unload();
         }
     }
 
-    public static WebDriver getDriver() {
-        return driver;
-    }
+//    public WebDriver getDriver() {
+//        return driver;
+//    }
 
-    protected FluentWait<WebDriver> getWait() {
-        if (wait == null) {
-            wait = new FluentWait<>(driver)
-                    .withTimeout(Duration.ofSeconds(30))           // Maximum wait time
-                    .pollingEvery(Duration.ofSeconds(2))           // Frequency of checks
+    public FluentWait<WebDriver> getWait() {
+    	if(wait==null) {
+    		wait = new FluentWait<>(getDriver())
+                    .withTimeout(Duration.ofSeconds(30))
+                    .pollingEvery(Duration.ofSeconds(2))
                     .ignoring(NoSuchElementException.class);
-        }
-        return wait;
+    	}
+		return wait;
     }
 
-    protected Actions getAction() {
-        if (action == null) {
-            action = new Actions(driver);
-        }
+    public Actions getAction() {
+    	if(action == null) {
+    		action = new Actions(getDriver());
+    	}
         return action;
     }
 }

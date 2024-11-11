@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="3" parallel="tests" name="Failed suite [Saucedemo Test Suite]" guice-stage="DEVELOPMENT">
+  <parameter name="firstName" value="Shivkumar"/>
+  <parameter name="lastName" value="Konnuri"/>
+  <parameter name="password" value="secret_sauce"/>
+  <parameter name="postalCode" value="400708"/>
+  <parameter name="username" value="standard_user"/>
+  <parameter name="status" value="finish"/>
+  <listeners>
+    <listener class-name="com.sauce.listeners.SauceDemoListeners"/>
+  </listeners>
+  <test thread-count="3" parallel="tests" name="Saucedemo Chrome Test(failed)">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.sauce.functionalities.SauceTestLoginLogout">
+        <methods>
+          <include name="testLogin"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestLoginLogout -->
+      <class name="com.sauce.functionalities.SauceTestAddToCart">
+        <methods>
+          <include name="addCartFunctionality"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="continueShopping"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestAddToCart -->
+      <class name="com.sauce.functionalities.SauceTestCheckout">
+        <methods>
+          <include name="finishOrCancelCheckout"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="testLogout"/>
+          <include name="doCheckout" invocation-numbers="0"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestCheckout -->
+    </classes>
+  </test> <!-- Saucedemo Chrome Test(failed) -->
+  <test thread-count="3" parallel="tests" name="Saucedemo Edge Test(failed)">
+    <parameter name="browser" value="edge"/>
+    <classes>
+      <class name="com.sauce.functionalities.SauceTestLoginLogout">
+        <methods>
+          <include name="testLogin"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestLoginLogout -->
+      <class name="com.sauce.functionalities.SauceTestAddToCart">
+        <methods>
+          <include name="addCartFunctionality"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="continueShopping"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestAddToCart -->
+      <class name="com.sauce.functionalities.SauceTestCheckout">
+        <methods>
+          <include name="finishOrCancelCheckout"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="testLogout"/>
+          <include name="doCheckout"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestCheckout -->
+    </classes>
+  </test> <!-- Saucedemo Edge Test(failed) -->
+  <test thread-count="3" parallel="tests" name="Saucedemo Firefox Test(failed)">
+    <parameter name="browser" value="firefox"/>
+    <classes>
+      <class name="com.sauce.functionalities.SauceTestLoginLogout">
+        <methods>
+          <include name="testLogin" invocation-numbers="0"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestLoginLogout -->
+      <class name="com.sauce.functionalities.SauceTestAddToCart">
+        <methods>
+          <include name="addCartFunctionality"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="continueShopping"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestAddToCart -->
+      <class name="com.sauce.functionalities.SauceTestCheckout">
+        <methods>
+          <include name="finishOrCancelCheckout"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="testLogout"/>
+          <include name="doCheckout" invocation-numbers="0"/>
+        </methods>
+      </class> <!-- com.sauce.functionalities.SauceTestCheckout -->
+    </classes>
+  </test> <!-- Saucedemo Firefox Test(failed) -->
+</suite> <!-- Failed suite [Saucedemo Test Suite] -->

@@ -23,24 +23,24 @@ public class SauceTestCheckout extends SauceBase {
 	    @Story("To check whether checkout functionality is working properly")
 	    public void doCheckout(String firstname, String lastname, String zipcode) {
 	        WebElement cart = getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@data-test=\"shopping-cart-link\"]")));
-	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cart);
+	        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", cart);
 	        getAction().moveToElement(cart).click().perform();
 	        List<WebElement> productList = getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class=\"cart_item\"]/div[2]/a/div")));
 	        if (productList.size() > 0) {
 	            WebElement checkout = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@data-test=\"checkout\"]")));
-	            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkout);
+	            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", checkout);
 	            getAction().moveToElement(checkout).click().perform();
 	            getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-test=\"firstName\"]"))).sendKeys(firstname);
 	            getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-test=\"lastName\"]"))).sendKeys(lastname);
 	            getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-test=\"postalCode\"]"))).sendKeys(zipcode);
 	            getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-test=\"continue\"]"))).click();
-	            String actualCheckoutUrl = driver.getCurrentUrl();
+	            String actualCheckoutUrl = getDriver().getCurrentUrl();
 	            String expectedCheckoutUrl = "https://www.saucedemo.com/checkout-step-two.html";
 	            System.out.println("actualCheckoutUrl= "+actualCheckoutUrl);
 	            System.out.println("expectedCheckoutUrl= "+expectedCheckoutUrl);
 	            Assert.assertEquals(actualCheckoutUrl, expectedCheckoutUrl);
 	        } else {
-	            if (driver.getCurrentUrl().equals("https://www.saucedemo.com/checkout-step-two.html")) {
+	            if (getDriver().getCurrentUrl().equals("https://www.saucedemo.com/checkout-step-two.html")) {
 	                Assert.fail();
 	            } else {
 	                Assert.assertTrue(true);
@@ -54,16 +54,16 @@ public class SauceTestCheckout extends SauceBase {
 	    public void finishOrCancelCheckout(String status) {
 	        if (status.equalsIgnoreCase("finish")) {
 	            WebElement finishButton = getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@data-test=\"finish\"]")));
-	            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", finishButton);
+	            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", finishButton);
 	            getAction().moveToElement(finishButton).click().perform();
-	            String actualFinishUrl = driver.getCurrentUrl();
+	            String actualFinishUrl = getDriver().getCurrentUrl();
 	            String expectedFinishUrl = "https://www.saucedemo.com/checkout-complete.html";
 	            Assert.assertEquals(actualFinishUrl, expectedFinishUrl);
 	        } else if (status.equalsIgnoreCase("cancel")) {
 	            WebElement cancelButton = getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@data-test=\"cancel\"]")));
-	            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cancelButton);
+	            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", cancelButton);
 	            getAction().moveToElement(cancelButton).click().perform();
-	            String actualCancelUrl = driver.getCurrentUrl();
+	            String actualCancelUrl = getDriver().getCurrentUrl();
 	            String expectedCancelUrl = "https://www.saucedemo.com/inventory.html";
 	            Assert.assertEquals(actualCancelUrl, expectedCancelUrl);
 	        } else {
